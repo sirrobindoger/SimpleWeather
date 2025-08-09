@@ -93,7 +93,9 @@ const MoonPhase = ({ phase, isActive = false, size = 24 }) => {
         imageRendering: 'pixelated',
         imageRendering: '-moz-crisp-edges',
         imageRendering: 'crisp-edges',
-        shapeRendering: 'crispEdges'
+        shapeRendering: 'crispEdges',
+        filter: isActive ? 'drop-shadow(0 0 8px #ff0000)' : 'none',
+        transition: 'filter 0.2s ease-in-out'
       }}
     >
       <defs>

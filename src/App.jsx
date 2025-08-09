@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useWeather, getWeatherCondition } from './hooks/useWeather'
 import { useAstronomy, getMoonPhaseIndex } from './hooks/useAstronomy'
 import { MoonPhasesRow } from './components/MoonPhases'
-import { WeatherIconsRow } from './components/WeatherIcons'
+import { WeatherPngIconsRow } from './components/WeatherPngIcons'
 import { TimeDisplay, ValueDisplay } from './components/SegmentDisplay'
 
 // Location Configuration - Change these values to customize your location
@@ -12,8 +12,6 @@ const LOCATION_CONFIG = {
   label: "Arkhangelsk, Russia",
   timezone: "Europe/Moscow"
 }
-
-// 64.58251836652293, 40.51543286464145
 
 function App() {
   const [currentTime, setCurrentTime] = useState(new Date())
@@ -44,6 +42,11 @@ function App() {
 
   const currentMoonPhase = astronomy ? getMoonPhaseIndex(astronomy.moon.phase) : 0
   const currentWeather = weather?.current ? getWeatherCondition(weather.current.weatherCode) : 'clear'
+  
+  // Debug: Log weather data
+  console.log('Weather data:', weather)
+  console.log('Weather code:', weather?.current?.weatherCode)
+  console.log('Current weather condition:', currentWeather)
 
   return (
     <div className="min-h-screen bg-retro-bg text-white p-8">
@@ -53,7 +56,13 @@ function App() {
           <div className="flex justify-center items-center gap-4 mb-4">
             <TimeDisplay time={currentTime} isActive={true} timezone={LOCATION_CONFIG.timezone} />
           </div>
-          <div className="text-retro-red text-sm font-mono">
+          <div 
+            className="text-retro-red text-sm font-mono"
+            style={{
+              textShadow: '0 0 4px #ff0000, 0 0 6px #ff0000',
+              filter: 'drop-shadow(0 0 2px #ff0000)'
+            }}
+          >
             {currentTime.toLocaleDateString('en-US', { 
               weekday: 'long', 
               year: 'numeric', 
@@ -67,7 +76,7 @@ function App() {
         {/* Moon Phases Row */}
         <div className="mb-8">
           <div className="text-center mb-4">
-            <div className="text-gray-400 text-xs font-mono mb-2">MOON PHASES</div>
+            {/* <div className="text-gray-400 text-xs font-mono mb-2">MOON PHASES</div> */}
             <MoonPhasesRow currentPhase={currentMoonPhase} />
           </div>
         </div>
@@ -75,8 +84,8 @@ function App() {
         {/* Weather Icons Row */}
         <div className="mb-8">
           <div className="text-center mb-4">
-            <div className="text-gray-400 text-xs font-mono mb-2">WEATHER</div>
-            <WeatherIconsRow currentWeather={currentWeather} />
+            {/* <div className="text-gray-400 text-xs font-mono mb-2">WEATHER</div> */}
+            <WeatherPngIconsRow currentWeather={currentWeather} />
           </div>
         </div>
 

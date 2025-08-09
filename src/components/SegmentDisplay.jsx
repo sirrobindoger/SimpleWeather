@@ -60,8 +60,9 @@ const SegmentDigit = ({ digit, isActive = false, size = 40, color = '#ff0000' })
         <g>
           {isSegmentActive && (
             <defs>
-              <filter id={glowId} x="-50%" y="-50%" width="200%" height="200%">
-                <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
+              <filter id={glowId} x="-100%" y="-100%" width="300%" height="300%">
+                <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                <feColorMatrix in="coloredBlur" type="matrix" values="1 0 0 0 0  0 0.2 0 0 0  0 0 0.2 0 0  0 0 0 1 0"/>
                 <feMerge> 
                   <feMergeNode in="coloredBlur"/>
                   <feMergeNode in="SourceGraphic"/> 
@@ -97,8 +98,9 @@ const SegmentDigit = ({ digit, isActive = false, size = 40, color = '#ff0000' })
         <g>
           {isSegmentActive && (
             <defs>
-              <filter id={glowId} x="-50%" y="-50%" width="200%" height="200%">
-                <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
+              <filter id={glowId} x="-100%" y="-100%" width="300%" height="300%">
+                <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                <feColorMatrix in="coloredBlur" type="matrix" values="1 0 0 0 0  0 0.2 0 0 0  0 0 0.2 0 0  0 0 0 1 0"/>
                 <feMerge> 
                   <feMergeNode in="coloredBlur"/>
                   <feMergeNode in="SourceGraphic"/> 
@@ -125,20 +127,24 @@ const SegmentDigit = ({ digit, isActive = false, size = 40, color = '#ff0000' })
     <div className="relative">
       {/* Main SVG display */}
       <svg 
-        width={size} 
-        height={size * 1.6} 
-        viewBox={`0 0 ${size} ${size * 1.6}`} 
+        width={size + 20} 
+        height={size * 1.6 + 20} 
+        viewBox={`-10 -10 ${size + 20} ${size * 1.6 + 20}`} 
         className="segment-digit"
+        style={{
+          filter: isActive ? `drop-shadow(0 0 6px ${color})` : 'none',
+          transition: 'filter 0.2s ease-in-out'
+        }}
       >
         
         {/* Segment A (top) */}
-        <Segment index={0} x={segmentWidth} y={topY} width={size - segmentWidth * 2} height={segmentWidth} />
+        <Segment index={0} x={segmentWidth + 10} y={topY + 10} width={size - segmentWidth * 2} height={segmentWidth} />
         
         {/* Segment B (top right) - runs from top to center */}
         <Segment 
           index={1} 
-          x={size - segmentWidth} 
-          y={topY} 
+          x={size - segmentWidth + 10} 
+          y={topY + 10} 
           width={segmentWidth} 
           height={Math.max(centerY - topY - segmentWidth / 2, 0)} 
           isHorizontal={false} 
@@ -147,21 +153,21 @@ const SegmentDigit = ({ digit, isActive = false, size = 40, color = '#ff0000' })
         {/* Segment C (bottom right) - runs from center to bottom */}
         <Segment 
           index={2} 
-          x={size - segmentWidth} 
-          y={centerY + segmentWidth / 2} 
+          x={size - segmentWidth + 10} 
+          y={centerY + segmentWidth / 2 + 10} 
           width={segmentWidth} 
           height={Math.max(bottomY - (centerY + segmentWidth / 2), 0)} 
           isHorizontal={false} 
         />
         
         {/* Segment D (bottom) */}
-        <Segment index={3} x={segmentWidth} y={bottomY - segmentWidth} width={size - segmentWidth * 2} height={segmentWidth} />
+        <Segment index={3} x={segmentWidth + 10} y={bottomY - segmentWidth + 10} width={size - segmentWidth * 2} height={segmentWidth} />
         
         {/* Segment E (bottom left) - runs from center to bottom */}
         <Segment 
           index={4} 
-          x={0} 
-          y={centerY + segmentWidth / 2} 
+          x={10} 
+          y={centerY + segmentWidth / 2 + 10} 
           width={segmentWidth} 
           height={Math.max(bottomY - (centerY + segmentWidth / 2), 0)} 
           isHorizontal={false} 
@@ -170,15 +176,15 @@ const SegmentDigit = ({ digit, isActive = false, size = 40, color = '#ff0000' })
         {/* Segment F (top left) - runs from top to center */}
         <Segment 
           index={5} 
-          x={0} 
-          y={topY} 
+          x={10} 
+          y={topY + 10} 
           width={segmentWidth} 
           height={Math.max(centerY - topY - segmentWidth / 2, 0)} 
           isHorizontal={false} 
         />
         
         {/* Segment G (middle) - centered around middle line */}
-        <Segment index={6} x={segmentWidth} y={centerY - segmentWidth / 2} width={size - segmentWidth * 2} height={segmentWidth} />
+        <Segment index={6} x={segmentWidth + 10} y={centerY - segmentWidth / 2 + 10} width={size - segmentWidth * 2} height={segmentWidth} />
       </svg>
     </div>
   )
