@@ -2,7 +2,7 @@ import React from 'react'
 
 const SegmentDigit = ({ digit, isActive = false, size = 40, color = '#ff0000' }) => {
   const activeColor = isActive ? color : '#1a1a1a'
-  const inactiveColor = '#0a0a0a'
+  const inactiveColor = '#000000'
   const segmentWidth = size * 0.15
   const segmentHeight = size * 0.38
   const gap = size * 0.04
@@ -76,7 +76,7 @@ const SegmentDigit = ({ digit, isActive = false, size = 40, color = '#ff0000' })
             filter={isSegmentActive ? `url(#${glowId})` : 'none'}
             style={{
               transition: 'all 0.2s ease-in-out',
-              opacity: isSegmentActive ? 1 : 0.12
+              opacity: 1
             }}
           />
         </g>
@@ -113,7 +113,7 @@ const SegmentDigit = ({ digit, isActive = false, size = 40, color = '#ff0000' })
             filter={isSegmentActive ? `url(#${glowId})` : 'none'}
             style={{
               transition: 'all 0.2s ease-in-out',
-              opacity: isSegmentActive ? 1 : 0.12
+              opacity: 1
             }}
           />
         </g>
@@ -123,39 +123,13 @@ const SegmentDigit = ({ digit, isActive = false, size = 40, color = '#ff0000' })
   
   return (
     <div className="relative">
-      {/* Background glow for the entire display */}
-      <div 
-        className="absolute inset-0 rounded-lg opacity-20"
-        style={{
-          background: isActive ? `radial-gradient(ellipse, ${color}40, transparent 70%)` : 'none',
-          filter: 'blur(8px)',
-          transform: 'scale(1.1)'
-        }}
-      />
-      
       {/* Main SVG display */}
       <svg 
         width={size} 
         height={size * 1.6} 
         viewBox={`0 0 ${size} ${size * 1.6}`} 
-        className="segment-digit relative z-10"
-        style={{
-          background: 'linear-gradient(145deg, #0a0a0a, #1a1a1a)',
-          borderRadius: '4px',
-          padding: '2px'
-        }}
+        className="segment-digit"
       >
-        {/* Background for segments */}
-        <rect
-          x="1"
-          y="1"
-          width={size - 2}
-          height={size * 1.6 - 2}
-          fill="#050505"
-          rx="3"
-          stroke="#333"
-          strokeWidth="0.5"
-        />
         
         {/* Segment A (top) */}
         <Segment index={0} x={segmentWidth} y={topY} width={size - segmentWidth * 2} height={segmentWidth} />
@@ -214,10 +188,7 @@ const SegmentDisplay = ({ value, isActive = false, size = 40, digits = 2, color 
   const displayValue = String(value).padStart(digits, '0').slice(-digits)
   
   return (
-    <div className="flex gap-1 p-1 rounded-lg" style={{
-      background: isActive ? 'linear-gradient(145deg, #1a1a1a, #0a0a0a)' : 'transparent',
-      boxShadow: isActive ? `inset 0 2px 4px rgba(0,0,0,0.3), 0 0 8px ${color}20` : 'none'
-    }}>
+    <div className="flex gap-1">
       {displayValue.split('').map((digit, index) => (
         <SegmentDigit
           key={index}
@@ -263,10 +234,7 @@ export const TimeDisplay = ({ time, isActive = false, color = '#ff0000', timezon
   const [hours, minutes] = timeStr.split(':')
   
   return (
-    <div className="flex items-center gap-3 p-2 rounded-lg" style={{
-      background: isActive ? 'linear-gradient(145deg, #1a1a1a, #0a0a0a)' : 'transparent',
-      boxShadow: isActive ? `inset 0 2px 4px rgba(0,0,0,0.3), 0 0 12px ${color}15` : 'none'
-    }}>
+    <div className="flex items-center gap-3">
       <SegmentDisplay value={hours} isActive={isActive} size={32} digits={2} color={color} />
       <div 
         className="text-2xl font-bold transition-all duration-200"
@@ -283,10 +251,7 @@ export const TimeDisplay = ({ time, isActive = false, color = '#ff0000', timezon
 
 export const ValueDisplay = ({ value, unit = '', isActive = false, digits = 3, color = '#ff0000' }) => {
   return (
-    <div className="flex items-center gap-2 p-1 rounded-md" style={{
-      background: isActive ? 'linear-gradient(145deg, #151515, #0a0a0a)' : 'transparent',
-      boxShadow: isActive ? `inset 0 1px 2px rgba(0,0,0,0.3), 0 0 6px ${color}10` : 'none'
-    }}>
+    <div className="flex items-center gap-2">
       <SegmentDisplay value={Math.round(value)} isActive={isActive} size={26} digits={digits} color={color} />
       {unit && (
         <span 
